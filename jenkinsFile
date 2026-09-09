@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout code') {
+            steps {
+                // Pulls code from your Git repository
+                git branch: 'TrialB', url: 'https://github.com/1986sabyasachee/CSEB_Trial.git'
+                //url: 'https://github.com/1986sabyasachee/CSEB_Trial.git',
+                //checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'echo "Compiling C program..."'
+                // Compiles main.c into an executable named my_program
+                sh 'gcc hello.c -o my_program'
+            }
+        }
+
+        stage('Test / Run') {
+            steps {
+                sh 'echo "Running C program..."'
+                // Executes the compiled binary
+                sh './my_program'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed during execution.'
+        }
+    }
+}
